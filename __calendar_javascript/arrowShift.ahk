@@ -1,0 +1,3 @@
+﻿#Persistent
+
+RShift::Right
