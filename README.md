@@ -1,4 +1,4 @@
-
+```
 from fastapi import FastAPI, HTTPException, Body
 from fastapi.responses import JSONResponse
 import json as _json
@@ -85,3 +85,4 @@ async def json(data: dict = Body(...)):
         # Handle exceptions and return an error response
         return HTTPException(status_code=500, detail=str(e))
 
+```
