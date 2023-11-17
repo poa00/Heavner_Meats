@@ -4,7 +4,7 @@ ngrok
 
 https://gist.github.com/YamiOdymel/d0337a6be3b2f1297c9eeab6c196fcb7
 
-Set and send an ngrok-skip-browser-warning request header with any value.
+Set and send an `ngrok-skip-browser-warning` request header with any value.
 
 sudo apt-get update
 sudo apt-get install unzip wget
