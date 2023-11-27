@@ -1,0 +1,132 @@
+Shoulder
+Chuck -> Default: (Grind), Bone-in, Boneless
+Bone-in -> Default: (Roasts), Steaks
+	Roasts -> Weight -> Default: (2-3 lbs), 3-4 lbs, 4-5 lbs, 1-2 lbs
+Boneless -> Flag red as Modern Boneless w/ link to proper cut sheet
+
+Arm -> Default: (Grind), Bone-in, Boneless
+Bone-in -> Roasts -> Weight -> Default: (2-3 lbs), 3-4 lbs, 4-5 lbs, 1-2 lbs
+Boneless -> Roasts -> Weight -> Default: (2-3 lbs), 3-4 lbs, 4-5 lbs, 1-2 lbs
+
+Brisket -> Default: (Grind), Whole, Halved, Quartered
+
+Shanks -> Default: (Grind), Whole, Shank Cuts
+Shank Cuts -> Thickness -> Default: (2in), 1.5in, 1in
+
+Skirt -> Default: (Grind), Steak
+
+Bones -> Default: (No), Marrow Only, Knuckles Only, Marrows & Knuckles
+
+Ribs
+Short Ribs -> Default: (Grind), Plate, English, Korean
+
+Ribeye -> Default: (Grind), Bone-in, Boneless
+Bone-in -> Default: (Steaks), Roasts
+Steaks -> 
+Tomahawks -> Default: (No), Yes 
+Thickness -> Default: (1.5in), 1in, 1.25in, 1.75in, 0.75in : 
+No./Pack -> Default: (2), 1 (1 steak per pack charged by side)
+Roasts -> 
+Size -> Default: (Halved), Whole, Thirds 
+Frenched -> Default: (No), Yes (Charged per side)
+
+Boneless -> Default: (Steaks), Roasts
+Steaks -> 
+Thickness -> Default: (1.5in), 1in, 1.25in, 1.75in, 0.75in  
+No./Pack -> Default: (2), 3, 4, 1 (1 steak per pack charged by side) 
+Spare Ribs -> Default: (Yes), Grind
+Roasts -> Size -> Default: (Halved), Whole, Thirds
+Spare Ribs -> Default: (Yes), Grind
+
+
+Loin
+Hanger -> Default (Grind), Steak
+
+Flank -> Default (Grind), Steak
+
+Loin / Steaks -> Default (Grind), Bone-in // Boneless to start  
+=>Bone-in 
+  T-bone/Porterhouse/Bone-in Sirloin (Not available for beef over 30 months of age)
+  to two division 
+
+T-bone/Porterhouse/Bone-in Sirloin -> T-bone/Porterhouse -> Thickness -> Default: (1.5in), 1in, 1.25in, 1.75in, 0.75in : No./Pack -> 
+
+Default: (2), 3, 4, 1 (1 steak per pack charged by side)
+T-bone/Porterhouse/Bone-in Sirloin -> Bone-in Sirloin -> Thickness -> Default: (1.5in), 1in, 1.25in, 1.75in, 0.75in
+
+Boneless to start    
+N.Y. Strip/Filet Mignon/Top Sirloin, 
+N.Y. Strip/Filet Mignon/Top Sirloin -> N.Y. Strip -> Thickness -> Default: (1.5in), 1in, 1.25in, 1.75in, 0.75in : No./Pack -> Default: (2), 3, 4, 1 (1 steak per pack charged by side)
+
+ N.Y. Strip/Filet Mignon/Top Sirloin -> Filet Mignon -> Thickness -> Default: (1.5in), 1in, 1.25in, 1.75in, 0.75in : No./Pack -> Default: (2), 3, 4, 1 (1 steak per pack charged by side)
+
+ N.Y. Strip/Filet Mignon/Top Sirloin -> Top Sirloin -> Thickness -> Default: (1.5in), 1in, 1.25in, 1.75in, 0.75in
+
+
+Round
+London Broil -> Default: (Grind), Roasts, Steaks, Stew Meat, Fajita, Kabob, Cube Steak, Thinly Sliced
+Roasts -> Weight -> Default: (2-3 lbs), 3-4 lbs, 4-5 lbs, 1-2 lbs
+Steaks -> Thickness -> Default: (1.5in), 1in, 1.25in, 1.75in, 0.75in
+Stew Meat -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+Fajita -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+Kabob -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+
+Top Round -> Default: (Grind), Roasts, Steaks, Stew Meat, Fajita, Kabob, Cube Steak, Thinly Sliced
+Roasts -> Weight -> Default: (2-3 lbs), 3-4 lbs, 4-5 lbs, 1-2 lbs
+Steaks -> Thickness -> Default: (1.5in), 1in, 1.25in, 1.75in, 0.75in
+Stew Meat -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+Fajita -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+Kabob -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+
+Bottom Round -> Default: (Grind), Roasts, Steaks, Stew Meat, Fajita, Kabob, Cube Steak, Thinly Sliced
+Roasts -> Weight -> Default: (2-3 lbs), 3-4 lbs, 4-5 lbs, 1-2 lbs
+Steaks -> Thickness -> Default: (1.5in), 1in, 1.25in, 1.75in, 0.75in
+Stew Meat -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+Fajita -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+Kabob -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+
+Eye of Round -> Default: (Grind), Roasts, Steaks, Stew Meat, Fajita, Kabob, Cube Steak, Thinly Sliced
+Roasts -> Weight -> Default: (2-3 lbs), 3-4 lbs, 4-5 lbs, 1-2 lbs
+Steaks -> Thickness -> Default: (1.5in), 1in, 1.25in, 1.75in, 0.75in
+Stew Meat -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+Fajita -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+Kabob -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+
+Sirloin Tip -> Default: (Grind), Roasts, Steaks, Stew Meat, Fajita, Kabob, Cube Steak, Thinly Sliced
+Roasts -> Weight -> Default: (2-3 lbs), 3-4 lbs, 4-5 lbs, 1-2 lbs
+Steaks -> Thickness -> Default: (1.5in), 1in, 1.25in, 1.75in, 0.75in
+Stew Meat -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+Fajita -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+Kabob -> Weight -> Default: (1 lb), 2 lbs, 5 lbs
+
+Ground
+Trim Packed Unground -> Default: (No), Yes
+Yes -> Quantity -> Default: (None), Ranged input value by customer (10 lbs to 1000 lbs)
+
+Ground Beef -> Default: (1 lb), 2 lbs, 5 lbs, 10 lbs
+1 lb -> 100% or 50/50 option -> Default: (100% 1 lb), 2 lbs (50%), 5 lbs (50%), 10 lbs (50%)
+2 lbs -> 100% or 50/50 option -> Default: (100% 2 lbs), 1 lb (50%), 5 lbs (50%), 10 lbs (50%)
+5 lbs -> 100% or 50/50 option -> Default: (100% 5 lbs), 1 lb (50%), 2 lbs (50%), 10 lbs (50%)
+10 lbs -> 100% or 50/50 option -> Default: (100% 10 lbs), 1 lb (50%), 2 lbs (50%), 5 lbs (50%)
+
+Beef Patties -> Default: (None), 25 lbs, 50 lbs, 75 lbs, 100 lbs
+25 lbs -> Weight -> Default: (4oz), 5oz, 6oz
+50 lbs -> Weight -> Default: (4oz), 5oz, 6oz
+75 lbs -> Weight -> Default: (4oz), 5oz, 6oz
+100 lbs -> Weight -> Default: (4oz), 5oz, 6oz
+
+Offal
+Heart -> Default: (No), Yes
+
+Liver -> Default: (No), Whole, Roasts, Sliced
+Roasts -> Weight -> Default: (2-3 lbs), 3-4 lbs, 4-5 lbs, 1-2 lbs
+
+Kidney -> Default: (No), Yes
+
+Tongue -> Default: (No), Yes
+
+Oxtail -> Default: (No), Yes
+
+Beef Back Fat -> Default: (No), Yes
+
+Beef Kidney Fat -> Default: (No), Yes
