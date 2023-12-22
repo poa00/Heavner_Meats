@@ -12,3 +12,4 @@ wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
 unzip ngrok-stable-linux-amd64.zip
 sudo mv ./ngrok /usr/bin/ngrok
 ngrok http 8080
+![ezgif-2-01d0d929cd](https://github.com/samfisherirl/Heavner_Meats/assets/98753696/647e5b7b-9fbb-4e2e-9b30-f1017e7c0bc2)
