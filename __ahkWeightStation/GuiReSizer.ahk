@@ -6,17 +6,17 @@
  *   Update 2023-02-15: Add more Min Max properties and renamed some Properties.
  *   Update 2023-03-13: Major rewrite. Converted to Class to allow for Methods.
  * @requires AutoHotkey v2.0.2+
- *
+ * 
  * @param {Object} GuiObj - Gui Object.
  * @param {Number} WindowMinMax - Window status. 0 = neither minimized nor maximized, 1 = maximized, -1 = minimized.
  * @param {Number} Width - Width of GuiObj.
  * @param {Number} Height - Height of GuiObj.
  * @returns {Class} GuiReSizer instance.
- *
+ * 
  * @example
  * 
  * ; GuiObj.OnEvent("Size", GuiReSizer)
- *
+ * 
  * @property {Number} X - X positional offset from margins.
  * @property {Number} Y - Y positional offset from margins.
  * @property {Number} XP - X positional offset from margins as a percentage of Gui width.
@@ -41,15 +41,15 @@
  * @property {Function} Function (F) - Custom function that will be called for this control.
  * @property {Object} Anchor (A) - Control object anchor so that size and position commands are in relation to another control.
  * @property {Boolean} AnchorIn (AI) - Controls where the control is restricted to the inside of another control.
- *
+ * 
  * @method Now
  * @description Forces a manual Call now for {GuiObj}.
  * @param {Object} GuiObj - Gui Object.
- *
+ * 
  * @method Opt
  * @description Same as Options method.
  * @param {Object} switches - Switches for Options method.
- *
+ * 
  * @method Options
  * @description All options are set as a string with each switch separated by a space "x10 yp50 oCM".
  * @param {Object} switches - Switches for setting options.
@@ -74,7 +74,7 @@
  * @param {Number} ox - OriginX.
  * @param {Number} oy - OriginY.
  * @param {String} o - Origin: "L" left, "C" center, "R" right, "T" top, "M" middle, "B" bottom; may use 1 or 2 letters.
- *
+ * 
  * @property {Object} Gui Properties:
  * @property {Number} Init - {Gui}.Init := 1, will cause all controls of the Gui to be redrawn on the next function call.
  *                           {Gui}.Init := 2, will also reinitialize abbreviations.
@@ -87,7 +87,7 @@ Class GuiReSizer
     {
         ; On Initial display of Gui use redraw to cleanup first positioning
         Try
-            (GuiObj.Init)
+        (GuiObj.Init)
         Catch
             GuiObj.Init := 2 ; Redraw Twice on Initial Call(called on initial Show)
 
@@ -184,19 +184,19 @@ Class GuiReSizer
             ;}
             ;{ Width
             If CtrlObj.HasProp("Width") and CtrlObj.HasProp("WidthP")
-                (CtrlObj.Width > 0 and CtrlObj.WidthP > 0 ? CtrlW := CtrlObj.Width + AnchorW * CtrlObj.WidthP : CtrlW := CtrlObj.Width + AnchorW + AnchorW * CtrlObj.WidthP - CtrlX)
+            (CtrlObj.Width > 0 and CtrlObj.WidthP > 0 ? CtrlW := CtrlObj.Width + AnchorW * CtrlObj.WidthP : CtrlW := CtrlObj.Width + AnchorW + AnchorW * CtrlObj.WidthP - CtrlX)
             Else If CtrlObj.HasProp("Width") and !CtrlObj.HasProp("WidthP")
-                (CtrlObj.Width > 0 ? CtrlW := CtrlObj.Width : CtrlW := AnchorW + CtrlObj.Width - CtrlX)
+            (CtrlObj.Width > 0 ? CtrlW := CtrlObj.Width : CtrlW := AnchorW + CtrlObj.Width - CtrlX)
             Else If !CtrlObj.HasProp("Width") and CtrlObj.HasProp("WidthP")
-                (CtrlObj.WidthP > 0 ? CtrlW := AnchorW * CtrlObj.WidthP : CtrlW := AnchorW + AnchorW * CtrlObj.WidthP - CtrlX)
+            (CtrlObj.WidthP > 0 ? CtrlW := AnchorW * CtrlObj.WidthP : CtrlW := AnchorW + AnchorW * CtrlObj.WidthP - CtrlX)
             ;}
             ;{ Height
             If CtrlObj.HasProp("Height") and CtrlObj.HasProp("HeightP")
-                (CtrlObj.Height > 0 and CtrlObj.HeightP > 0 ? CtrlH := CtrlObj.Height + AnchorH * CtrlObj.HeightP : CtrlH := CtrlObj.Height + AnchorH + AnchorH * CtrlObj.HeightP - CtrlY)
+            (CtrlObj.Height > 0 and CtrlObj.HeightP > 0 ? CtrlH := CtrlObj.Height + AnchorH * CtrlObj.HeightP : CtrlH := CtrlObj.Height + AnchorH + AnchorH * CtrlObj.HeightP - CtrlY)
             Else If CtrlObj.HasProp("Height") and !CtrlObj.HasProp("HeightP")
-                (CtrlObj.Height > 0 ? CtrlH := CtrlObj.Height : CtrlH := AnchorH + CtrlObj.Height - CtrlY)
+            (CtrlObj.Height > 0 ? CtrlH := CtrlObj.Height : CtrlH := AnchorH + CtrlObj.Height - CtrlY)
             Else If !CtrlObj.HasProp("Height") and CtrlObj.HasProp("HeightP")
-                (CtrlObj.HeightP > 0 ? CtrlH := AnchorH * CtrlObj.HeightP : CtrlH := AnchorH + AnchorH * CtrlObj.HeightP - CtrlY)
+            (CtrlObj.HeightP > 0 ? CtrlH := AnchorH * CtrlObj.HeightP : CtrlH := AnchorH + AnchorH * CtrlObj.HeightP - CtrlY)
             ;}
             ;{ Min Max
             (CtrlObj.HasProp("MinX") ? MinX := CtrlObj.MinX : MinX := -999999)
@@ -301,20 +301,87 @@ Class GuiReSizer
         {
             lettersToLookFor := ["y", "x", "h", "w"]
             index := 1
-            count := matchCount/2
+            count := matchCount / 2
             _new_sizePos := ""
             returnCtrlVar := GuiObj.Add(CtrlType, , LabelVar)
             Loop count
-            { 
+            {
                 if InStr("y", matchObj[index])
                 {
-                    percentage := StrReplace(matchObj[index+1], "%", "")
-                    percentage := percentage/100
+                    percentage := StrReplace(matchObj[index + 1], "%", "")
+                    percentage := percentage / 100
                     returnCtrlVar.YP := percentage
                 }
-                index := index+2
+                index := index + 2
             }
         }
     }
+    /**
+     * Formats and sets the positioning and sizing options for a control in the GuiReSizer class.
+     * 
+     * @memberof GuiReSizer
+     * @static
+     * @function FormatOpt
+     * 
+     * @param {Object} ctrl - The control object to apply the formatting to.
+     * @param {number} [xp] - X positional offset as a percentage of Gui width.
+     * @param {number} [yp] - Y positional offset as a percentage of Gui height.
+     * @param {number} [wp] - Width of control as a percentage of Gui width.
+     * @param {number} [hp] - Height of control as a percentage of Gui height.
+     * 
+     * @example
+     * // Usage:
+     * GuiReSizer.FormatOpt(myControl, 10, 20, 30, 40);
+     * 
+     * // This will set the X position to 10% of the Gui width,
+     * // Y position to 20% of the Gui height,
+     * // Width to 30% of the Gui width,
+     * // Height to 40% of the Gui height.
+     */
+    static FormatOpt(ctrl, xp?, yp?, wp?, hp?) 
+    {
+        options := ""
+        if IsSet(xp)
+            options .= GuiResizer.doTheMath(xp, "xp")
+        if IsSet(yp)
+            options .= GuiResizer.doTheMath(yp, "yp")
+        if IsSet(wp)
+            options .= GuiResizer.doTheMath(wp, "wp")
+        if IsSet(hp)
+            options .= GuiResizer.doTheMath(hp, "hp")
+        options := StrReplace(options, "0.", ".")
+        GuiResizer.Opt(ctrl, options)
+    }
+    static doTheMath(val, str) {
+        if val < 0
+            val += 1
+        return str Round(val, 2) " "
+    }
 }
 ;}
+
+; Gui.Control.Prototype.DefineProp("Format", { Call: format_control_pos_size })
+
+; class format_control_pos_size
+; {
+;     static Call(self, xp?, yp?, wp?, hp?)
+;     {
+;         options := ""
+;         if IsSet(xp)
+;             options .= format_control_pos_size.math(xp, "xp") 
+;         if IsSet(yp)
+;             options .= format_control_pos_size.math(yp, "yp")
+;         if IsSet(wp)
+;             options .= format_control_pos_size.math(wp, "wp")
+;         if IsSet(hp)
+;             options .= format_control_pos_size.math(hp, "hp")
+;         options := StrReplace(options, "0.", ".")
+;         self.Opt(options)
+;     }
+;     static math(val, str)
+;     {
+;         if val < 0
+;             val += 1
+;         return str Round(val, 2) " "
+;     }
+; }

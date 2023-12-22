@@ -1,15 +1,13 @@
-﻿Tomahawks := [">>Tomahawks", "*No", "Yes"]
-thickness := [">>Thickness", "1.5in", "1in", "1.25in", "1.75in", "0.75in"]
-steaks :=  ["Grind", "Roasts", "Steaks", "Stew Meat", "Fajita", "Kabob", "Cube Steak", "Thinly Sliced"]
+﻿Weight := ["4oz", "5oz", "6oz"]
+Tomahawks := ["*No", "Yes"]
+thickness := ["1.5in", "1in", "1.25in", "1.75in", "0.75in"]
+steaks := ["Grind", "Roasts", "Steaks", "Stew Meat", "Fajita", "Kabob", "Cube Steak", "Thinly Sliced"]
 
-Tomahawks := [">>Tomahawks", "*No", "Yes"]
-thickness := [">>Thickness", "1.5in", "1in", "1.25in", "1.75in", "0.75in"]
-steaks :=  ["Grind", "Roasts", "Steaks", "Stew Meat", "Fajita", "Kabob", "Cube Steak", "Thinly Sliced"]
 BeefMap := Map(
-    "Chuck/Shoulder", Map(
+    "Chuck", Map(
         "Grind", "Grind",
         "Bone-in", Map(
-            "Roasts", ["2-3 lbs", "3-4 lbs", "4-5 lbs", "1-2 lbs"], "Steaks", "Select?"
+            "Roasts", ["2-3 lbs", "3-4 lbs", "4-5 lbs", "1-2 lbs"], "Steaks", "Finished."
         ),
         "Boneless", "Flag red"
     ),
@@ -24,77 +22,79 @@ BeefMap := Map(
     ),
     "Brisket", ["Grind", "Whole", "Halved", "Quartered"],
     "Shanks", Map(
-        "Grind", "Grind", "Whole", "Whole",
+        "Grind", "Finished.", "Whole", "Finished.",
         "Shank Cuts", ["2in", "1.5in", "1in"]
     ),
-    "Skirt", ["Grind", "Steak"],
+    "Skirt", Map("Grind", "Finished.", "Steak", "Finished."),
     "Bones", Map(
         "*No", "No",
-        "Yes", ["Marrow Only",
-            "Marrow Only",
-            "Knuckles Only",
-            "Marrows & Knuckles"]
+        "Yes", Map("Marrow Only", "Finished.",
+            "Marrow Only", "Finished.",
+            "Knuckles Only", "Finished.",
+            "Marrows & Knuckles", "Finished.")
     ),
-    "Ribs", ["*Grind", "Plate", "English", "Korean"],
+    "Ribs", Map("*Grind", "Finished.", "Plate", "Finished.", "English", "Finished.", "Korean", "Finished."),
     "Ribeye", Map(
-        "Grind", "Select?",
+        "Grind", "Finished.",
         "Bone-in", Map(
             "Steaks", Map(
-                "*Select All:", "",
-                "Thickness", thickness,
-                "Tomahawk", Tomahawks,
-                "No./Pack", [
-                    "2", "3", "4", "1"
-                    ]
-            ),
+                "See sub-menu", Map(
+                    "Thickness", thickness,
+                    "Tomahawk", Tomahawks,
+                    "No./Pack", ["2", "3", "4", "1"]
+                )),
             "Roasts", Map(
-                "*Select All:", "",
-                "Size", ["Halved", "Whole", "Thirds"],
-                "Frenched per pack", ["No", 2, 1]
-            )
+                "See sub-menu", Map(
+                    "Size", ["Halved", "Whole", "Thirds"],
+                    "Frenched per pack", ["No", 2, 1]
+                ))
         ),
         "Boneless", Map(
-            "Steaks", 
+            "Steaks",
             Map(
-                "*Select All:", "",
-                "Thickness", thickness,
-                "No\pack", [1, 2, 3, 4],
-                "Spare Ribs", ["Yes", "*Grind"]
-            ),
+                "See sub-menu", Map(
+                    "Thickness", thickness,
+                    "No\pack", [1, 2, 3, 4],
+                    "Spare Ribs", ["Yes", "*Grind"]
+                )),
             "Roasts", Map(
-                "*Select All:", "",
-                "Spare Ribs", ["Yes", "*Grind"],
-                "Size", ["Halved", "Whole", "Thirds"]
+                "See sub-menu", Map(
+                    "Spare Ribs", ["Yes", "*Grind"],
+                    "Size", ["Halved", "Whole", "Thirds"]
+                )
             )
-        )
-    ),
+        )),
     "Loin", Map(
-        "Hanger", ["Grind", "Steak"],
-        "Flank", ["Grind", "Steak"]
+        "Hanger", Map("Grind", "Finished.", "Steak", "Finished."),
+        "Flank", Map("Grind", "Finished.", "Steak", "Finished.")
     ),
     "Steaks", Map(
-        "*Grind", "Select?",
+        "*Grind", "Finished.",
         "N.Y. Strip", Map(
-            "*Complete Both: ", "",
-            "Thickness", thickness,
-            "No./Pack", ["2", "3", "4", "1"]
-        ),
-        "Filet Mignon", Map(
-            "Thickness", thickness,
-            "No./Pack", ["2", "3", "4", "1"]
-        ),
-        "Top Sirloin", Map(
-            "Thickness", thickness
-        ),
-        "T-bone/Porterhouse/Bone-in Sirloin", Map(
-            "T-bone/Porterhouse", Map(
+            "See sub-menu", Map(
                 "Thickness", thickness,
                 "No./Pack", ["2", "3", "4", "1"]
-            ),
+        )),
+        "Filet Mignon", Map(
+            "See sub-menu", Map(
+                "Thickness", thickness,
+                "No./Pack", ["2", "3", "4", "1"]
+        )),
+        "Top Sirloin", Map(
+            "See sub-menu", Map(
+                "Thickness", thickness
+        )),
+        "T-bone/Porterhouse/Bone-in Sirloin", Map(
+            "T-bone/Porterhouse", Map(
+            "See sub-menu", Map(
+                "Thickness", thickness,
+                "No./Pack", ["2", "3", "4", "1"]
+            )),
             "Bone-in Sirloin", Map(
+            "See sub-menu", Map(
                 "Thickness", thickness
             )
-        )
+        ))
     ),
     "Round", Map(
         "London Broil", steaks,
@@ -105,21 +105,22 @@ BeefMap := Map(
     ),
     "Ground", Map(
         "Trim Packed Unground", Map(
-            "No", "Select?",
-            "Yes", ["Ask customer:(10 lbs-1000 lbs)"]
+            "No", "Finished.",
+            "Yes", "Ask customer:(10 lbs-1000 lbs)"
         ),
         "Ground Beef", Map(
             "1 lb", ["100% 1 lb", "2 lbs (50%)", "5 lbs (50%)", "10 lbs (50%)"],
-            "2 lbs", ["100% 2 lbs", "1 lb (50%)", "5 lbs (50%)", "10 lbs (50%)"],
-            "5 lbs", ["100% 5 lbs", "1 lb (50%)", "2 lbs (50%)", "10 lbs (50%)"],
+            "2 lb", ["100% 2 lbs", "1 lb (50%)", "5 lbs (50%)", "10 lbs (50%)"],
+            "5 lb", ["100% 5 lbs", "1 lb (50%)", "2 lbs (50%)", "10 lbs (50%)"],
+            "10 lb", ["100% 5 lbs", "1 lb (50%)", "2 lbs (50%)", "10 lbs (50%)"],
             "10 lbs", ["100% 10 lbs", "1 lb (50%)", "2 lbs (50%)", "5 lbs (50%)"]
         ),
         "Beef Patties", Map(
-            "None", "Select?",
-            "25 lbs", [">>Weight>>", "4oz", "5oz", "6oz"],
-            "50 lbs", [">>Weight>>", "4oz", "5oz", "6oz"],
-            "75 lbs", [">>Weight>>", "4oz", "5oz", "6oz"],
-            "100 lbs", [">>Weight>>", "4oz", "5oz", "6oz"]
+            "None", "Finished.",
+            "25 lbs", weight,
+            "50 lbs", weight,
+            "75 lbs", weight,
+            "100 lbs", weight
         )
     ),
     "Offal", Map(

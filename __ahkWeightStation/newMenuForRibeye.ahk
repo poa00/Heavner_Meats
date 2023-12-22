@@ -15,17 +15,30 @@ myGui.Add("Text", "x32 y320 w254 h217 r5", "Ribeye has a select many or all opti
 myGui.Add("GroupBox", "x352 y16 w607 h109", "Select One")
 Radio4 := myGui.Add("Radio", "x408 y64 w120 h23", "Steaks")
 Radio5 := myGui.Add("Radio", "x640 y64 w120 h23", "Roasts")
+
+
+;========================================================================
+; 						tab Section
+;========================================================================
+
 tabStorage := myGui.Add("Tab3", "x352 y144 w607 h341", [" Thickness ", " Tomahawk ", " Size "])
 myGui.Add("Text", "x392 y200 w243 h33 +0x200", "Thickness options")
 CheckBox1 := myGui.Add("CheckBox", "x392 y264 w120 h23", "1.5in")
 CheckBox2 := myGui.Add("CheckBox", "x392 y312 w120 h23", "1in")
 yLoop := 185
-radioLoop := "x392 y" yLoop " w120 h23"
+radioLoop := "x392 y" yLoop " w120 h23" 
+;========================================================================
+; 						tab Section
+;========================================================================
 tabStorage.UseTab(3)
-loopRadio(loopRadios:=["radioLoop1", "radioLoop2","radioLoop2","radioLoop2"], yLoop)
-
-tabStorage.UseTab(2)
-
+loopRadio(loopRadios:=["radioLoop1", "radioLoop2","radioLoop2","radioLoop2"], yLoop) 
+;========================================================================
+; 						tab Section
+;========================================================================
+tabStorage.UseTab(2) 
+;========================================================================
+; 						tab Section
+;========================================================================
 loopRadio(loopRadios:=["radioLoop1", "radioLoop2"], yLoop)
 Radio1.OnEvent("Click", OnEventHandler)
 Radio2.OnEvent("Click", OnEventHandler)

@@ -54,6 +54,8 @@ darkMode(myGUI)
     }
     for ctrlHWND, ctrl in myGUI
     {
+        if ctrl.HasOwnProp("NoBack")
+            continue
         blackGuiCtrl(myGUI[ctrlHWND])
     }
     ;else

@@ -75,70 +75,6 @@
 ; CreateImageButton()
 ; ======================================================================================================================
 CreateImageButton(GuiBtn, Mode, Options*) {
-   ; How to use:
-   ;     1. Call UseGDIP() to initialize the Gdiplus.dll before the first call of this function.
-   ;     2. Create a push button (e.g. "Gui, Add, Button, vMyButton hwndHwndButton, Caption") using the 'Hwnd' option
-   ;        to get its HWND.
-   ;     3. If you want to change the default Gui background color - needed for rounded buttons -
-   ;        call CreateImageButton("SetDefGuiColor", NewColor) or CreateImageButton("SetDefTxtColor", NewColor)
-   ;        where NewColor is a RGB integer value (0xRRGGBB) or a HTML color name ("Red").
-   ;        To reset the colors to the AHK/system default pass "*INIT*" in NewColor.
-   ;     4. To create an image button call CreateImageButton() passing two or more parameters:
-   ;        GuiBtn      -  Gui.Button object.
-   ;        Mode        -  The mode used to create the bitmaps:
-   ;                       0  -  unicolored or bitmap
-   ;                       1  -  vertical bicolored
-   ;                       2  -  horizontal bicolored
-   ;                       3  -  vertical gradient
-   ;                       4  -  horizontal gradient
-   ;                       5  -  vertical gradient using StartColor at both borders and TargetColor at the center
-   ;                       6  -  horizontal gradient using StartColor at both borders and TargetColor at the center
-   ;                       7  -  'raised' style
-   ;                       8  -  forward diagonal gradient from the upper-left corner to the lower-right corner
-   ;                       9  -  backward diagonal gradient from the upper-right corner to the lower-left corner
-   ;                      -1  -  reset the button
-   ;        Options*    -  variadic array containing up to 6 option arrays (see below).
-   ;        ---------------------------------------------------------------------------------------------------------------
-   ;        The index of each option object determines the corresponding button state on which the bitmap will be shown.
-   ;        MSDN defines 6 states (http://msdn.microsoft.com/en-us/windows/bb775975):
-   ;           PBS_NORMAL    = 1
-   ;	         PBS_HOT       = 2
-   ;	         PBS_PRESSED   = 3
-   ;	         PBS_DISABLED  = 4
-   ;	         PBS_DEFAULTED = 5
-   ;	         PBS_STYLUSHOT = 6 <- used only on tablet computers (that's false for Windows Vista and 7, see below)
-   ;        If you don't want the button to be 'animated' on themed GUIs, just pass one option object with index 1.
-   ;        On Windows Vista and 7 themed bottons are 'animated' using the images of states 5 and 6 after clicked.
-   ;        ---------------------------------------------------------------------------------------------------------------
-   ;        Each option array may contain the following values:
-   ;           Index Value
-   ;           1     StartColor  mandatory for Option[1], higher indices will inherit the value of Option[1], if omitted:
-   ;                             -  ARGB integer value (0xAARRGGBB) or HTML color name ("Red").
-   ;                             -  Path of an image file or HBITMAP handle for mode 0.
-   ;           2     TargetColor mandatory for Option[1] if Mode > 0. Higher indcices will inherit the color of Option[1],
-   ;                             if omitted:
-   ;                             -  ARGB integer value (0xAARRGGBB) or HTML color name ("Red").
-   ;                             -  String "HICON" if StartColor contains a HICON handle.
-   ;           3     TextColor   optional, if omitted, the default text color will be used for Option[1], higher indices
-   ;                             will inherit the color of Option[1]:
-   ;                             -  ARGB integer value (0xAARRGGBB) or HTML color name ("Red").
-   ;                                Default: 0xFF000000 (black)
-   ;           4     Rounded     optional:
-   ;                             -  Radius of the rounded corners in pixel; the letters 'H' and 'W' may be specified
-   ;                                also to use the half of the button's height or width respectively.
-   ;                                Default: 0 - not rounded
-   ;           5     BorderColor optional, ignored for modes 0 (bitmap) and 7, color of the border:
-   ;                             -  RGB integer value (0xRRGGBB) or HTML color name ("Red").
-   ;           6     BorderWidth optional, ignored for modes 0 (bitmap) and 7, width of the border in pixels:
-   ;                             -  Default: 1
-   ;        ---------------------------------------------------------------------------------------------------------------
-   ;        If the the button has a caption it will be drawn upon the bitmaps.
-   ;     5. Call GdiplusShutDown() to clean up the resources used by GDI+ after the last function call or
-   ;        before the script terminates.
-   ; ======================================================================================================================
-   ; This software is provided 'as-is', without any express or implied warranty.
-   ; In no event will the authors be held liable for any damages arising from the use of this software.
-   ; ==========================================================================================================
    ; Default colors - COLOR_3DFACE is used by AHK as default Gui background color
    Static DefGuiColor := SetDefGuiColor("*INIT*"),
           DefTxtColor := SetDefTxtColor("*INIT*"),
@@ -605,4 +541,3 @@ CreateImageButton(GuiBtn, Mode, Options*) {
       Throw Error(ErrMsg)
    }
 }
-UseGDIP()
