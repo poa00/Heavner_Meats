@@ -131,20 +131,24 @@ def read_customers_fullname_farm_id_route():
 @customer_routes.route('/customers/<customerID>', methods=['PUT'])
 def update_customer_route(customerID):
     """
-     Update a customer in the database. This is a REST call to update an existing Peephole customer's data
-     
-     Args:
-     	 customerID: The ID of the customer to update
-     
-     Returns: 
-     	 200 if successful 400 if not ( in order to avoid confusion with other services ) or 500 if an error
+    Update a customer in the database. This is a REST call to update an existing Peewee customer's data
+    
+    Args:
+        customerID: The ID of the customer to update
+    
+    Returns: 
+        200 if successful, 400 if not (to avoid confusion with other services), or 500 if an error
     """
 
     data = request.json
-    status = process_pewee_update(data)
-    if not status:
-        return api_reply_util('Invalid return/response', 400, [str(request.json)])
-    return api_reply_util('Customer data updated successfully', 200)
+    with db.atomic():  # Start an atomic transaction
+        status = process_pewee_update(customerID, data)
+        if status:
+            return api_reply_util('Customer data updated successfully', 200)
+        else:
+            # Assuming an unsuccessful update indicates a problem with the data or it doesn't exist
+            return api_reply_util('Invalid return/response or customer not found', 400, [str(data)])
+    # If an error occurs and an exception is raised, it should be caught and handled with a 500 code
 
 
 @customer_routes.route('/customers/<customerID>', methods=['DELETE'])
@@ -222,15 +226,68 @@ def get_customers_with_future_events():
     
 
 @customer_routes.route('/customers/weight-station', methods=['GET'])
-def get_customers_with_near_term_events():
+def customers_weight_station():
+    """
+    Table model retrieves a list of customers with 
+    near-term events filtered by animal species
+    Returns:
+        A JSON response containing the details of events with customer information, filtered by species.
+    """
+    try:
+        current_date = datetime.now()
+        start_of_last_week = (
+            current_date - timedelta(days=current_date.weekday() + 7)).isocalendar()
+        end_of_next_week = (
+            current_date + timedelta(days=(6 - current_date.weekday()) + 7)).isocalendar()
+
+        near_term_events = Events.select().where(
+            (Events.yweek >= (start_of_last_week[0] * 100 + start_of_last_week[1])) &
+            (Events.yweek <= (end_of_next_week[0] * 100 + end_of_next_week[1])) &
+            ((Events.cows > 0) | (Events.pigs > 0) | (Events.lambs > 0))
+        ).join(Customer)
+
+        events_with_details = [{
+            'eventID': event.id,
+            'yearweek': event.yweek,
+            'customer': {
+                'customer_id': event.customer.id,
+                'full_name': event.customer.full_name,
+                'company_name': event.customer.company_name,
+                'email': event.customer.email,
+            },
+            'animals': [
+                {'species': 'cows', 'count': event.cows} if event.cows > 0 else None,
+                {'species': 'pigs', 'count': event.pigs} if event.pigs > 0 else None,
+                {'species': 'lambs', 'count': event.lambs} if event.lambs > 0 else None,
+            ]
+        } for event in near_term_events if event.cows > 0 or event.pigs > 0 or event.lambs > 0]
+
+        # Filter out None values in animals list
+        for event in events_with_details:
+            event['animals'] = [
+                animal for animal in event['animals'] if animal is not None]
+
+        return jsonify(events_with_details)
+    except Exception as e:
+        return jsonify({'message': f'Error retrieving customer events.\n{e}'})
+        
+@customer_routes.route('/customers/near-term-events', methods=['GET'])
+def customers_for_butcher():
+    """
+    Retrieves a list of customers with near-term events and their associated animals.
+    Returns:
+        A JSON response containing the details of events with customer and animal information.
+    """
     try:
         # Get the current date
         current_date = datetime.now()
 
-        # Calculate dates for beginning of this week, last week, and next week
-        start_of_this_week = current_date - timedelta(days=current_date.weekday())
+        # Calculate dates for beginning of this week, last week, and next two weeks
+        start_of_this_week = current_date - \
+            timedelta(days=current_date.weekday())
         start_of_last_week = start_of_this_week - timedelta(weeks=1)
         start_of_next_week = start_of_this_week + timedelta(weeks=1)
+        start_of_next_next_week = start_of_next_week + timedelta(weeks=1)
 
         # Convert dates to yearweek format
         last_week_yearweek = start_of_last_week.isocalendar(
@@ -239,21 +296,32 @@ def get_customers_with_near_term_events():
         )[0] * 100 + start_of_this_week.isocalendar()[1]
         next_week_yearweek = start_of_next_week.isocalendar(
         )[0] * 100 + start_of_next_week.isocalendar()[1]
+        next_next_week_yearweek = start_of_next_next_week.isocalendar(
+        )[0] * 100 + start_of_next_next_week.isocalendar()[1]
 
-        # Query for events with a yearweek for last, this, or next week
-        near_term_events = (Events.select()
+        # Query for events with a yearweek for last week, this week, and the next two weeks
+        near_term_events = (Events.select(Events, Customer)
                             .join(Customer)
-                            .where(Events.yweek.between(last_week_yearweek, next_week_yearweek)))
+                            .where(Events.yweek.between(last_week_yearweek, next_next_week_yearweek)))
 
-        # Extract customers from those events
-        customers = [model_to_dict(
-            event.customer) for event in near_term_events]
+        # Extract all event data including customer info and associated animals
+        events_with_details = []
+        for event in near_term_events:
+            animals = [model_to_dict(animal) for animal in event.animals]
+            event_data = {
+                'eventID': event.id,
+                'event': model_to_dict(event),
+                'customer': model_to_dict(event.customer),
+                'animals': animals
+            }
+            events_with_details.append(event_data)
 
-        return jsonify(customers)
+        return jsonify(events_with_details)
+
     except Exception as e:
-        return api_reply_util('get_customers_with_future_events failure', 404, e)
-    
-    
+        return jsonify({'error': str(e)}), 500
+
+
 def api_reply_util(msg, status_code, *args):
     """
      Function to reply to api calls that return JSON. This function is used for testing and debugging. The return value is a JSON object with message and status code

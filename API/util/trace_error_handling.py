@@ -14,16 +14,19 @@ def er(e):
         Exception: An exception with a verbose message.
 
     """
+    x = traceback.format_exc(e)
     with open("error_log.txt", "a") as f:
-        f.write(str(e))
+        f.write(x)
+
     envo()
-    raise Exception(verbose_print(f"\nAn error occurred: {e}")) from e
+    raise Exception(verbose_print(f"\nAn error occurred: {x}")) from e
 
 def throw(string):
     try:
         x = 2 / 0 
     except Exception as e:
-        er(f"{e}\nstring")
+        x = traceback.format_exc(e)
+        er(f"{x}\nstring")
         
         
 def verbose_print(error=False, *args):

@@ -4,8 +4,8 @@ from peewee import *
 from pewee_secret_model import db_cfg
 import socket
 from pathlib import Path
-import json 
-
+import json
+from datetime import date
 
 dbpath = Path.cwd() / 'mydatabase.db'
 
@@ -68,6 +68,7 @@ class Events(Model):
     cows = IntegerField(null=True)
     pigs = IntegerField(null=True)
     lambs = IntegerField(null=True)
+    notes = TextField(null=True)
     cutsheet_complete = IntegerField(null=True)
     cutsheet_remainder = CharField(null=True)
     saved_cutsheet = JSONField(null=True)
@@ -84,6 +85,7 @@ class Cutsheet(Model):
     year = IntegerField(null=True)
     animal = CharField(null=True)
     amount = CharField(null=True)
+    nickname = CharField(null=True)
     producer = ForeignKeyField(Customer, backref='cutsheets_as_producer')
     event = ForeignKeyField(Events, backref='cutsheets', null=True)
     recipient = ForeignKeyField(Customer, backref='cutsheets_as_recipient', null=True)
@@ -91,35 +93,51 @@ class Cutsheet(Model):
     class Meta:
         database = db
 
-        
+
 class Animals(Model):
     species = CharField()
-    live_weight = IntegerField()
-    sex = CharField()
-    is_over_30_months = BooleanField(null=True)
-    abscess = BooleanField(null=True)
-    organs_acceptable = BooleanField(null=True)
-    no_organs = BooleanField(null=True)
-    save_head = BooleanField(null=True)
-    save_hide = BooleanField(null=True)
+    gender = CharField(null=True)
+    organs = JSONField(null=True)
     comments = CharField(null=True)
     event = ForeignKeyField(Events, backref='animals')
-    customer = ForeignKeyField(Events, backref='animals', null=True)
+    customer = ForeignKeyField(Customer, backref='animals', null=True)
+    cutsheet = ForeignKeyField(Cutsheet, backref='animals', null=True)
+    created_on = DateField(default=date.today)
 
     class Meta:
         database = db
 
+
+class Cow(Model):
+    animal = ForeignKeyField(Animals, backref='cows')
+    live_weight = IntegerField(null=True)
+    manual_entry_weight = IntegerField(null=True)
+    ear_tag = CharField(null=True)
+    teid = CharField(null=True)
+    is_over_30_months = BooleanField(null=True)
+
+    class Meta:
+        database = db
+
+
+class Pig(Model):
+    animal = ForeignKeyField(Animals, backref='pigs')
+    gender = CharField(null=True)
+    weight = IntegerField(null=True)
+
+    class Meta:
+        database = db
+
+
+class Lamb(Model):
+    animal = ForeignKeyField(Animals, backref='pigs')
+    gender = CharField(null=True)
+    weight = IntegerField(null=True)
+
+    class Meta:
+        database = db
+    
         
-class Meat(Model):
-    section = CharField()
-    weight = CharField()
-    grind = BooleanField()
-    animal = ForeignKeyField(Animals, backref='meat')
-
-    class Meta:
-        database = db
-
-
 
 
 def is_internet_connected(host="www.google.com", port=80, timeout=0):

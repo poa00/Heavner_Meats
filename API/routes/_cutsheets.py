@@ -14,6 +14,7 @@ cutsheet_routes = Blueprint('cutsheet_routes', __name__)
 def get_current_yearweek():
     return datetime.now().isocalendar()[0] * 100 + datetime.now().isocalendar()[1]
 
+
 @cutsheet_routes.route('/cutsheets/', methods=['POST'])
 def create_cutsheet():
     """
@@ -30,26 +31,29 @@ def create_cutsheet():
         Exception: If there is an error creating the cutsheet.
     """
     data = request.json
-    #try:
-    # Only allow specified fields to be used from request data
-    cutsheet_data = {key: data[key]
-                        for key in data.keys() if key in Cutsheet._meta.fields}
-    # Retrieve the customer using customer_id
+    with db.atomic():  # Start an atomic transaction
+        try:
+            # Only allow specified fields to be used from request data
+            cutsheet_data = {key: data[key]
+                             for key in data.keys() if key in Cutsheet._meta.fields}
+            # Retrieve the recipient if provided and it exists
+            if 'recipient' in data:
+                recipient_id = data['recipient']
+                recipient_ = Customer.get_by_id(recipient_id)
+                cutsheet_data['recipient'] = recipient_
 
-    # Update event_data with the customer instance
-    if 'recipient' in data:
-        recipient_ = read_customer(data['recipient'])
-        if recipient_ != None:
-            cutsheet_data['recipient'] = recipient_
-        else: 
-            cutsheet_data.pop('recipient')
-    
-    cutsheet = Cutsheet.create(**cutsheet_data)
-    return jsonify({'message': f'Cutsheet created with ID: {cutsheet.id}'}), 201
-    # except Exception as e:
-    #     verbose_print(e)
-    #     er(e)
-    #     return jsonify({'message': 'Error creating cutsheet'}), 500
+            cutsheet = Cutsheet.create(**cutsheet_data)
+            return jsonify({'message': 'Cutsheet created successfully', 'id': cutsheet.id}), 201
+        except Customer.DoesNotExist:
+            return jsonify({'message': 'Recipient not found'}), 404
+        except IntegrityError as e:
+            verbose_print(e)
+            er(e)
+            return jsonify({'message': 'Error creating cutsheet due to integrity issues'}), 400
+        except Exception as e:
+            verbose_print(e)
+            er(e)
+            return jsonify({'message': 'Error creating cutsheet'}), 500
 
 
 @cutsheet_routes.route('/cutsheets/search', methods=['POST'])
@@ -180,27 +184,33 @@ def update_cutsheet(cutsheet_id):
     Returns:
         Response: A JSON response indicating the status of the update operation.
     """
-    try:
-        cutsheet = Cutsheet.get_by_id(cutsheet_id)
-    except Cutsheet.DoesNotExist:
-        return jsonify({'message': f'Cutsheet with ID {cutsheet_id} does not exist.'}), 404
-
     args = request.json
 
-    if 'cutsheet' in args:
-        # Replace the 'cutsheet' JSON data entirely.
-        cutsheet.cutsheet = args['cutsheet']
+    with db.atomic():  # Start an atomic transaction
+        try:
+            cutsheet = Cutsheet.get_by_id(cutsheet_id)
+            if 'cutsheet' in args:
+                # Replace the 'cutsheet' JSON data entirely.
+                cutsheet.cutsheet = args['cutsheet']
 
-    # Handle other fields that might be provided, excluding 'cutsheet'.
-    other_fields = {k: v for k, v in args.items(
-    ) if k in Cutsheet._meta.fields and k != 'cutsheet'}
-    for field, value in other_fields.items():
-        setattr(cutsheet, field, value)
+            # Handle other fields that might be provided, excluding 'cutsheet'.
+            other_fields = {k: v for k, v in args.items(
+            ) if k in Cutsheet._meta.fields and k != 'cutsheet'}
+            for field, value in other_fields.items():
+                setattr(cutsheet, field, value)
 
-    cutsheet.save()  # Save the changes to the database.
-    return jsonify({'message': f'Cutsheet with ID {cutsheet.id} has been updated.'})
-
-
+            cutsheet.save()  # Save the changes to the database.
+            return jsonify({'message': f'Cutsheet with ID {cutsheet.id} has been updated.'}), 200
+        except Cutsheet.DoesNotExist:
+            return jsonify({'message': f'Cutsheet with ID {cutsheet_id} does not exist.'}), 404
+        except IntegrityError as e:
+            verbose_print(e)
+            er(e)
+            return jsonify({'message': 'Integrity error during update.'}), 400
+        except Exception as e:
+            verbose_print(e)
+            er(e)
+            return jsonify({'message': 'Error updating cutsheet.'}), 500
 
 @cutsheet_routes.route('/cutsheets/<cutsheet_id>', methods=['DELETE'])
 def delete_cutsheet(cutsheet_id):

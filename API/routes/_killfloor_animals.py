@@ -8,30 +8,31 @@ from util.auth import requires_auth
 
 animal_routes = Blueprint('animal_routes', __name__)
 
+
 @animal_routes.route('/animals/', methods=['POST'])
 def create_event():
     """
-     Create a new animal event. This is a REST endpoint for creating animal animals. The data should be a JSON object with the following fields : message : A JSON response with a message indicating whether the event was created or not.
-     
-     
-     Returns: 
-     	 A JSON response with a message indicating whether the event was created or not and an HTTP status code. Example request **. : http Example response **
-    """
-    """
-    Create a new animal event.
-
+    Create a new animal event. This is a REST endpoint for creating animal events. 
+    The data should be a JSON object with the fields corresponding to the Animals model.
+    
     Returns:
-        tuple: A tuple containing a JSON response with a message indicating whether the event was created or not, and an HTTP status code.
+        A JSON response with a message indicating whether the event was created or not and an HTTP status code.
     """
     data = request.json
-    event_data = {key: data[key] for key in data.keys() if key in Animals._meta.fields}
-    try:
-        event = Animals.create(**event_data)
-        return jsonify({'message': f'Animal event created: {event.id}'}), 201
-    except Exception as e:
-        verbose_print(e)
-        er(e)
-        return jsonify({'message': 'Error creating animal event'}), 500
+    event_data = {key: data[key]
+                  for key in data.keys() if key in Animals._meta.fields}
+    with db.atomic():  # Start an atomic transaction
+        try:
+            event = Animals.create(**event_data)
+            return jsonify({'message': f'Animal event created: {event.id}'}), 201
+        except IntegrityError as e:
+            verbose_print(e)
+            er(e)
+            return jsonify({'message': 'Error creating animal event due to integrity issues'}), 400
+        except Exception as e:
+            verbose_print(e)
+            er(e)
+            return jsonify({'message': 'Error creating animal event'}), 500
 
 
 # Route to read all animal animals
@@ -57,28 +58,37 @@ def read_all_animals():
     return jsonify({'message': 'error reading customer'}), 400
 
 
-# Route to update a animal event by event ID
 @animal_routes.route('/animals/<event_id>', methods=['PUT'])
 def update_event(event_id):
     """
-     Update an existing animal event. This will update the properties of an existing animal event with the data provided in the request body.
-     
-     Args:
-     	 event_id: The ID of the event to update.
-     
-     Returns: 
-     	 A JSON response with a message indicating whether the event was updated or not and an HTTP status code. Example request **. : http Example response **. :
+    Update an existing animal event. This will update the properties of an existing animal event with the data provided in the request body.
+    
+    Args:
+        event_id: The ID of the event to update.
+    
+    Returns: 
+        A JSON response with a message indicating whether the event was updated or not and an HTTP status code.
     """
     data = request.json
-    try:
-        event = Animals.get(Animals.id == event_id)
-        for key, value in data.items():
-            setattr(event, key, value)
-        event.save()
-        return jsonify({'message': f'Animal event updated: {event.id}'}), 200
-    except Animals.DoesNotExist:
-        return jsonify({'message': 'Animal event not found'}), 404
-
+    with db.atomic():  # Start an atomic transaction
+        try:
+            event = Animals.get_by_id(event_id)
+            for key, value in data.items():
+                if key in event._meta.fields:
+                    setattr(event, key, value)
+            event.save()
+            return jsonify({'message': f'Animal event updated: {event.id}'}), 200
+        except Animals.DoesNotExist:
+            return jsonify({'message': 'Animal event not found'}), 404
+        except IntegrityError as e:
+            verbose_print(e)
+            er(e)
+            return jsonify({'message': 'Error updating animal event due to integrity issues'}), 400
+        except Exception as e:
+            verbose_print(e)
+            er(e)
+            return jsonify({'message': 'Error updating animal event'}), 500
+        
 
 @animal_routes.route('/animals/<event_id>', methods=['DELETE'])
 def delete_event(event_id):

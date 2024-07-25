@@ -1,4 +1,4 @@
-from flask import Flask, after_this_request, request, jsonify
+from flask import Flask, after_this_request, request
 from util.key import port
 from util.trace_error_handling import er, verbose_print
 from util.tools import log
@@ -6,8 +6,6 @@ from routes import _cutsheets, _calendar, _customers, _users, _animals
 from util.PEWEE_model import *
 import subprocess
 import time
-import traceback
-from routes.shareable_functions import print_error
 
 ######################################
 # from pewee_secret_model import db
@@ -15,8 +13,7 @@ from routes.shareable_functions import print_error
 db = sql_connect(force_sqlite=True)
 # param=> force_sqlite = True
 ######################################
-
-db.create_tables([Customer, Events, Cutsheet, Animals, Cow, Pig, Lamb])
+db.create_tables([Customer, Events, Cutsheet, Animals, Meat])
 
 log()
 RAN = False
@@ -76,7 +73,6 @@ def close_connection():
                             f"Failed to kill process {process_id} on port {port}: {e}")
         except subprocess.CalledProcessError:
             print(f"Error checking port {port}")
-
 
 
 def run_flask_app(port):
