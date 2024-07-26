@@ -1,0 +1,4 @@
+SetWindowTheme(&wsGUI)
+{
+    darkMode(wsGUI)
+}
