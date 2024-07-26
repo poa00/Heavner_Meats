@@ -6,6 +6,10 @@
 - All python and AHK has an entry of `main.{ext}`
 - All python includes a `One-Click-Runner.bat` for venv and `requirements.txt`
 
+### Easy Setup
+
+- step1_dependency_installer.bat 
+
 Identify imports 
 
 `main.py` will include all app-wide imports 
