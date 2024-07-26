@@ -71,8 +71,16 @@ class Convert2Resizer
                 : (_map['Text'] != false && _map['Text'] != "") ? array_contains(splitLines, (_map['Text'])) : false
             if line
             {
-                if InStr(splitLines[line], "Add(") && InStr(splitLines[line], ":=")
-                    _map['Name'] := Trim(StrSplit(splitLines[line], " := ")[1]) 
+                linestr := splitLines[line]
+                if InStr(linestr, "Add(") && InStr(linestr, ":=")
+                    _map['Name'] := Trim(StrSplit(linestr, " := ")[1]) 
+                if _map.Has('Value')
+                    try
+                        _map['Value'] := BetweenStr(linestr, '"')[3]
+                if _map.Has('Text')
+                    try
+                        _map['Text'] := BetweenStr(linestr, '"')[3]
+                        
             }
             else {
                 _map['Name'] := Trim(_map["Type"]) A_Index
@@ -82,22 +90,25 @@ class Convert2Resizer
             ; Start building the AHK script by creating GUI controls based on the information in _map
             newScript .= storage "." _map['Name'] " := " guiname ".Add(`"" _map['Type'] "`", `"`","
             ; Depending on the control 'Type', the generated script will configure it differently
-            newScript .= (!InStr(_map['Type'], "List"))
+            ; Depending on the control 'Type', the generated script will configure it differently
+            var := (_map.Has('Value') && _map['Value'] != false && _map['Value'] != "") ? _map['Value'] : ""
+            var := (_map.Has('Text') && _map['Text'] != false && _map['Text'] != "") ? _map['Text'] : ""
+            newScript .= (!InStr(_map['Type'], "List") && !InStr(_map['Type'], "DDL") && !InStr(_map['Type'], "dropdownlist"))
                 ? (!InStr(_map['Type'], "ComboBox"))
-                    ? " `"`")`n" : "[`"`"])`n"
-                : "[`"`"])`n"
+                    ? " `"" var "`")`n" : "[`" " var "`"])`n"
+                : "[`" " var "`"])`n"
                 
             ; If there are default settings for the type of GUI control in _map,
             ; check if there's a function associated and it's not false, then add that configuration to the script
-            t := _map['Type']
-            d := defaults.Has(t) ? defaults[t] : 
-            defaults[_map['Type']]
-            newScript .= defaults.Has(_map['Type'])
-                ? (_map[defaults[_map['Type']]['function']] != false)
-                    ? storage "." _map['Name'] "." defaults[_map['Type']]['function'] " := `""
-                        . _map[defaults[_map['Type']]['function']] "`"`n"
-                        : ""
-                : ""
+            ; t := _map['Type']
+            ; d := defaults.Has(t) ? defaults[t] : 
+            ; defaults[_map['Type']]
+            ; newScript .= defaults.Has(_map['Type'])
+            ;     ? (_map[defaults[_map['Type']]['function']] != false)
+            ;         ? storage "." _map['Name'] "." defaults[_map['Type']]['function'] " := `""
+            ;             . _map[defaults[_map['Type']]['function']] "`"`n"
+            ;             : ""
+            ;     : ""
 
             newScript .= "pushToResizer(" storage "."
                 . _map['Name'] ", " _map['XP'] ", " _map['YP'] ", " _map['WP'] ", " _map['HP'] ")`n"
@@ -125,11 +136,43 @@ array_contains(arr, search, case_sensitive := 0)
     }
     return 0
 }
-
+/*
+This function extracts substrings between two sets of delimiters
+it takes the input string (`text`), the start delimiter (`startDelim`),
+and the end delimiter (`endDelim`). It returns an array of all substrings found.
+* Example usage:
+* codeText :=
+ *     "
+ *     (
+ *     This is some text with "quotes" and with < angled brackets > .
+ *     There is "another quote" and < more brackets > .
+ *     )"
+ * quotesContents := ExtractSubstringsBetween(codeText, '"') ; array
+ * bracketContents := ExtractSubstringsBetween(codeText, "<", ">") ; array
+ *
+*/
+BetweenStr(text, startDelim, endDelim?) {
+    if !IsSet(endDelim)
+        endDelim := startDelim
+    results := []  ; Initialize an empty array to store the results
+    startIndex := 1 ; Start search from the beginning of the string
+    while (startIndex := InStr(text, startDelim, true, startIndex + StrLen(startDelim)))
+    {
+        ; Find the matching end delimiter from the found start delimiter
+        endIndex := InStr(text, endDelim, true, startIndex + StrLen(startDelim))
+        if (!endIndex)  ; If no ending delimiter is found, break the loop
+            break
+        extracted := SubStr(text, startIndex + StrLen(startDelim), endIndex - (startIndex + StrLen(startDelim)))
+        results.Push(extracted)
+        startIndex := endIndex
+    }
+    return results
+}
 ctrlDefault()
 {
     return m := Map("Button", map("ctrl", "Button", "event", "Click", "function", "Text"),
         "DropDownList", map("ctrl", "DropDownList", "event", "Change", "function", "Text"),
+        "DDL", map("ctrl", "DDL", "event", "Change", "function", "Text"),
         "Edit", map("ctrl", "Edit", "event", "Change", "function", "Value"),
         "DateTime", map("ctrl", "DateTime", "event", "Change", "function", "Value"),
         "MonthCal", map("ctrl", "MonthCal", "event", "Change", "function", "Value"),
@@ -141,8 +184,7 @@ ctrlDefault()
         "ListBox", Map("ctrl", "ListBox", "event", "Click", "function", "Value"))
 }
 
-SplitPath(A_ScriptFullPath, &fn)
-if InStr(fn, "Convert2Resizer")
+if A_ScriptFullPath = A_LineFile
     myGui := Constructor_()
 
 Constructor_() {
@@ -242,30 +284,15 @@ Constructor_() {
 
     return myGui
 }
-BetweenStr(text, startDelim, endDelim?) {
-    if !IsSet(endDelim)
-        endDelim := startDelim
-    results := []  ; Initialize an empty array to store the results
-    startIndex := 1 ; Start search from the beginning of the string
-    while (startIndex := InStr(text, startDelim, true, startIndex + StrLen(startDelim)))
-    {
-        ; Find the matching end delimiter from the found start delimiter
-        endIndex := InStr(text, endDelim, true, startIndex + StrLen(startDelim))
-        if (!endIndex)  ; If no ending delimiter is found, break the loop
-            break
-        extracted := SubStr(text, startIndex + StrLen(startDelim), endIndex - (startIndex + StrLen(startDelim)))
-        results.Push(extracted)
-        startIndex := endIndex
-    }
-    return results
-}
+myGui := Gui()
+myGui.Add("Hotkey", "x0 y0 w5760 h3242", "calendarSimple.ahk")
+MonthCal1 := myGui.Add("MonthCal", "x62 y37 w1437 h1498")
+ListView := myGui.Add("ListView", "x1549 y37 w1549 h749")
+myGui.Add("GroupBox", "x1549 y806 w544 h499", "Selected Week")
+myGui.Add("Text", "x1569 y846 w494 h299", "15")
+ButtonADD := myGui.Add("Button", "x2153 y806 w190 h170", "+ ADD")
+ButtonDetails := myGui.Add("Button", "x2343 y806 w190 h170", "Details")
+ButtonDelete := myGui.Add("Button", "x2533 y806 w190 h170", "Delete")
 
-customerGui := Gui()
-customerGui.Add("Text", "", "Use the box on the next line to search for a customer:")
-Edit1 := customerGui.Add("Edit", "x32 y74 w528 h41", "Enter Search Criteria for Customer")
-buttonClear := customerGui.Add("Button", "x+20 w380 h40 BackgroundBlack", "Clear")
-LV := customerGui.Add("ListView", "x32 y132 w931 h771 +LV0x4000", ["Customer Name", "Email Address", "Address", "ID"])
-ButtonConfirmSelection := customerGui.Add("Button", "x1050 y132 w380 h90 BackgroundBlack", "Confirm Selection")
-
-customerGui.Show("w1006")
-Convert2Resizer(customerGui, "C:\Users\dower\OneDrive\Documents\_cloudDrive\Calendar_javascript\searchCustomers.ahk")
+myGui.Show("")
+Convert2Resizer(myGui, "C:\Users\dower\OneDrive\Documents\_cloudDrive\Calendar_javascript\templateMAINSCREEN_.ahk")

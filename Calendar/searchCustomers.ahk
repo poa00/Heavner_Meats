@@ -23,7 +23,7 @@ class CustomerSearch
 	{
 		global customers
 		customerGui := Gui("-DPIScale")
-
+		
 		CustomerSearch.hwnd := customerGui.Hwnd
 		customers := getCustomers()
 		if customers is String
@@ -40,12 +40,13 @@ class CustomerSearch
 		LV.SetFont("cBlack")
 		
 		ButtonConfirmSelection := customerGui.Add("Button", "x1050 y132 w380 h90 BackgroundBlack", "Confirm Selection")
+		LV.OnEvent("DoubleClick", (*) => clickConfirm())
 		ButtonConfirmSelection.OnEvent("Click", clickConfirm)
 		Edit1.OnEvent("Focus", searchFieldChange)
 		Edit1.OnEvent("Change", searchFieldChange)
 		Edit1.SetFont("cBlack")
 		buttonClear.OnEvent("Click", (*) => Edit1.Value := "")
-		customerGui.OnEvent('Close', (*) => ExitApp())
+		customerGui.OnEvent('Close', (*) => clickClose())
 		customerGui.Title := "Window"
 		LV.ModifyCol(3, 420)
 		LV.ModifyCol(2, 320)
@@ -56,17 +57,22 @@ class CustomerSearch
 		
 		importCustomer(LV)
 		Sleep(1000)
-
+		clickClose(*){
+			CustomerSearch.hwnd := ""
+		}
 		clickConfirm(*)
 		{
-			global customers
 			RowNumber := LV.GetNext()
 			if not RowNumber  ; The above returned zero, so there are no more selected rows.
 				return
 			cID := LV.GetText(RowNumber, 4)
-			customerSearch.Profile := customers[cID]
+			customerSearch.Profile := getCustomers()[cID]
 			customerSearch.ID := cID
 			customers := Map()
+			for _, ctrl_hwnd in addEvent.checkbox.OwnProps()
+			{
+				GuiCtrlFromHwnd(ctrl_hwnd).Enabled := true
+			}
 		}
 
 		OnEventHandler(*)

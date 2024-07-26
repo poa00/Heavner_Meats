@@ -1,6 +1,6 @@
 
 
-class Json
+class sJson
 {
     static LoadEvents(filepath := eventsFile) {
         j := FileRead(filepath)
@@ -13,55 +13,7 @@ class Json
     }
 }
 
-/*
-insertData(currentWeek)
 
-This function reads data from a JSON file and inserts it into the addEvent form.
-The function takes one parameter:
-- currentWeek: the current week number to be inserted into the form.
-
-The function reads the data from the file specified in the 'pendingEventFile' variable.
-It then loads the data into a dictionary using the Jsons library.
-Finally, the function sets the values of the addEvent form fields using the data from the dictionary.
-
-*/
-insertData(currentWeek)
-{
-    global returnFile 
-    
-    str := reader(pendingEventFile)
-    if str = "" or str = false
-    {
-        returnFile := 0
-        CustomerSearch.ID := ""
-        calendarChild.Hide()
-        tempGui := CustomerSearch()
-        loop  
-        {
-            Sleep(100)
-            if CustomerSearch.ID = ""
-            {
-                continue
-            }
-            else
-            {
-                dict := CustomerSearch.profile
-                CustomerSearch.ID := ""
-                tempGui.Destroy()
-                break
-            }
-        }
-    }
-    else
-    {
-        returnFile := 1
-        dict := jsons.Loads(&str)
-    }
-    addEvent.editValues.customerID.Value := dict["id"]
-    addEvent.editValues.customerName.Value := dict["full_name"]
-    addEvent.editValues.weekNumber.Value := currentWeek
-    addEvent.editValues.customerAddress.Value := dict["billing_street"]
-}
 
 
 
