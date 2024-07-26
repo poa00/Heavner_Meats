@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>Untitled</title>
+        <style>
+      #dataTable th:nth-child(1) {
+        width: 20%;
+      }
+
+      #dataTable th:nth-child(2) {
+        width: 20%;
+      }
+
+      #dataTable th:nth-child(3) {
+        width: 15%;
+      }
+
+      #dataTable th:nth-child(4) {
+        width: 10%;
+      }
+
+      #dataTable th:nth-child(5) {
+        width: 10%;
+      }
+
+      #dataTable th:nth-child(6) {
+        width: 25%;
+      }
+        </style>
+        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/fonts/fontawesome-all.min.css" rel="stylesheet">
+        <link href="/static/fonts/font-awesome.min.css" rel="stylesheet">
+        <link href="/static/fonts/fontawesome5-overrides.min.css" rel="stylesheet">
+        <link href="/static/css/styles.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <!-- Start: Search Input Responsive with Icon -->
+        <div class="row" style="max-width: 100%">
+            <div class="col-md-10 offset-md-1">
+                <div class="card m-auto" style="max-width: 750px">
+                    <div class="card-body">
+                        <div class="col">
+                            <form class="d-flex align-items-center">
+                                <i class="fas fa-search d-none d-sm-block h4 text-body m-0"></i>
+                                <input
+                                    id="searchInput"
+                                    onkeyup="search()"
+                                    class="form-control form-control-lg flex-shrink-1 form-control-borderless"
+                                    type="search"
+                                    placeholder="Search T&E Meats customers..."
+                                    name="searchbar"
+                                >
+                                <button class="btn btn-success btn-lg" style="margin-left: 5px" onclick="search()">
+                                    Search
+                                </button>
+                                <button class="btn btn-success btn-lg" onclick="loadPage('newCustomer')" style="margin-left: 5px; background: rgb(113, 39, 187)">
+                                    New
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End: Search Input Responsive with Icon -->
+        <!-- Start: Table With Search -->
+        <div class="col-md-12 search-table-col">
+            <span class="counter pull-right"></span>
+            <div class="table-responsive table table-hover table-bordered results">
+                <table class="table table-hover table-bordered" id="dataTable">
+                    <thead class="bill-header cs">
+                        <tr>
+                            <th id="trs-hd-1">Customer Name</th>
+                            <th id="trs-hd-2">Area</th>
+                            <th id="trs-hd-3">Address</th>
+                            <th id="trs-hd-4">Address</th>
+                            <th id="trs-hd-5">Customer ID</th>
+                            <th id="trs-hd-6">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="warning no-result">
+                            <td colspan="12">
+                                <i class="fa fa-warning"></i>
+                                &nbsp; No Results
+                            </td>
+                        </tr>
+                        {% for customer in customers %}
+                        <tr>
+                            <td>{{ customer.full_name }}</td>
+                            <td>{{ customer.telephone }}</td>
+                            <td>{{ customer.billing_address }}</td>
+                            <td>{{ customer.shipping_address }}</td>
+                            <td>{{ customer.customerID }}</td>
+                            <td>
+                                <button
+                                    class="btn btn-success"
+                                    style="margin-left: 5px"
+                                    type="submit"
+                                    onclick="sendValue({{ customer.customerID }})"
+                                >
+                                    <i class="fa fa-plus" style="font-size: 20px">
+                                        &nbsp;Schedule
+                                    </i>
+                                </button>
+                                <button class="btn btn-danger" style="margin-left: 5px" type="submit">
+                                    <i class="fa fa-trash" style="font-size: 15px"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- End: Table With Search -->
+        <script>
+        function search() {
+          event.preventDefault();
+          var input, filter, table, tr, td, i, j, txtValue;
+          input = document.getElementById('searchInput');
+          filter = input.value.toUpperCase();
+          table = document.getElementById('dataTable');
+          tr = table.getElementsByTagName('tr');
+          for (i = 1; i < tr.length; i++) {
+            tr[i].style.display = 'none';
+            td = tr[i].getElementsByTagName('td');
+            for (j = 0; j < td.length; j++) {
+              if (td[j]) {
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  tr[i].style.display = '';
+                  break;
+                }
+              }
+            }
+          }
+          return false; // Add this line to prevent form submission
+        }
+        function sendValue(custID) {
+              event.preventDefault();
+
+          // Get the input element by ID
+          // Call the PyWebview function to send the value to Python
+          window.pywebview.api.send_value(custID)
+        }
+        function loadPage(pageName) {
+              event.preventDefault();
+
+          //   fetch('/' + pageName)
+          //       .then(response => response.text())
+          //       .then(data => {
+          //           document.getElementById('content').innerHTML = data;
+          //       });
+          window.pywebview.api.load_page(pageName)
+
+        }
+
+      // function newCustomer() {
+      //   // Get the input element by ID
+      //   // Call the PyWebview function to send the value to Python
+      //   window.pywebview.api.load_html()
+      // }
+        </script>
+        <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    </body>
+</html>

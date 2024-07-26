@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    />
+    <title>Untitled</title>
+    <link
+      rel="stylesheet"
+      href="/static/assets/bootstrap/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="/static/assets/css/Lato.css" />
+    <script type="text/javascript" src="/static/overlay.js"></script>
+    <link rel="stylesheet" href="/static/assets/fonts/ionicons.min.css" />
+    <link
+      rel="stylesheet"
+      href="/static/assets/css/TD-BS4-Simple-Contact-Form-styles.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/static/assets/css/TD-BS4-Simple-Contact-Form.css"
+    />
+  </head>
+  <body>
+    <section class="td-form">
+      <div class="row td-form-wrapper">
+        <div class="col td-glass">
+          <form class="td-form-wrapper" id="newCustomerForm">
+            <h1 class="text-center">Add New Customer</h1>
+            <div class="form-group mb-3">
+              <div class="col-md-12">
+                <label class="form-label" for="name">Name or Business *</label>
+                <div class="d-flex">
+                  <i class="icon ion-person align-self-center"></i>
+                  <input
+                    class="form-control d-flex"
+                    type="text"
+                    autocomplete="off"
+                    id="full_name"
+                    required=""
+                    placeholder="Treedax Services"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <div class="col-md-12">
+                <label class="form-label"  for="email">Email Address *</label>
+                <div class="d-flex">
+                  <i class="icon ion-ios-email align-self-center"></i>
+                  <input
+                    class="form-control"
+                    id="email"
+                    type="text"
+                    autocomplete="off"
+                    name="phone"
+                    placeholder="services@treedax.com"
+                    inputmode="email"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <div class="col-md-12">
+                <label class="form-label" for="phone">Phone (optional)</label>
+                <div class="d-flex td-input-container">
+                  <i class="icon ion-ios-telephone align-self-center"></i>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="telephone"
+                    autocomplete="off"
+                    placeholder="555-555-1212"
+                    name="phone"
+                    inputmode="tel"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <div class="col-md-12">
+                <label class="form-label" for="subject">Billing Street: *</label>
+                <div class="d-flex td-input-container">
+                  <i class="icon ion-ios-information align-self-center"></i>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="billing_street"
+                    autocomplete="off"
+                    placeholder="I really like this form, thanks!"
+                    name="subject"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <div class="col-md-12">
+                <label class="form-label" for="subject">Billing City: *</label>
+                <div class="d-flex td-input-container">
+                  <i class="icon ion-ios-information align-self-center"></i>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="billing_city"
+                    autocomplete="off"
+                    placeholder="I really like this form, thanks!"
+                    name="subject"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <div class="col-md-12">
+                <label class="form-label" for="subject">Billing Zip: *</label>
+                <div class="d-flex td-input-container">
+                  <i class="icon ion-ios-information align-self-center"></i>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="billing_zip"
+                    autocomplete="off"
+                    placeholder="I really like this form, thanks!"
+                    name="subject"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <div class="col-md-12">
+                <label class="form-label" for="message">Details *</label>
+                <div class="d-flex td-input-container">
+                  <i class="icon ion-android-create align-self-center"></i>
+                  <textarea
+                    class="form-control"
+                    id="details"
+                    placeholder="Add meaningful message here"
+                    name="message"
+                    rows="6"
+                    cols="50"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </form>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-xxl-5">
+                        <button class="btn btn-dark" onclick="loadPage('')" style="background: rgb(146, 39, 32)">
+                            Back / Cancel
+                        </button>
+                    </div>
+                    <div class="col-md-6 col-xxl-6">
+                        <button class="btn btn-dark" onclick="submitForm()" style="background: rgb(45, 112, 48)">
+                            Add New Customer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+    <script src="/static/assets/bootstrap/js/bootstrap.min.js">
+    </script>
+    <script>
+
+    function submitForm() {
+        event.preventDefault();
+        JsLoadingOverlay.show();  
+        // Get the input element by ID
+        var full_name = document.getElementById('full_name').value;
+        // var name = element.value;
+        var telephone = document.getElementById('telephone').value;
+        // var email = element.value;
+        var email = document.getElementById('email').value;
+        // var phone = element.value;
+        var billing_street = document.getElementById('billing_street').value;
+        var billing_city = document.getElementById('billing_city').value;
+        var billing_zip = document.getElementById('billing_zip').value;
+        // var billing_street = element.value;
+        // var detail = element.value;
+        // Call the PyWebview function to send the value to Python
+        if (full_name.trim() === '' || billing_street.trim() === '' || telephone.trim() === '') {
+
+          JsLoadingOverlay.hide();
+          window.alert('Please fill out new customer details or place a dash in place of missing details');
+          // window.pywebview.api.alert_box('Please fill out new customer details or place a dash in place of missing details');
+          return false; // Prevent form submission
+        } else {
+
+          const formData = new FormData(document.getElementById("newCustomerForm"));
+          const inputElements = document.querySelectorAll("input");
+          const inputData = {};
+
+          // Create an object to hold the form data
+          inputElements.forEach(function(input) {
+              const key = input.id; // Get the id attribute as the key
+              const value = input.value; // Get the value of the input
+              inputData[key] = value; // Add the key-value pair to the object
+          });
+
+          window.pywebview.api.submit_new_customer(inputData);
+        }
+
+    }
+
+    function loadPage(pageName) {
+        event.preventDefault();
+        //   fetch('/' + pageName)
+        //       .then(response => response.text())
+        //       .then(data => {
+        //           document.getElementById('content').innerHTML = data;
+        //       });
+        window.pywebview.api.load_page(pageName);
+        return false; // Add this line to prevent form submission
+      }
+          // Function to show loading overlay before the page loads
+    function showLoadingOverlay() {
+        JsLoadingOverlay.show();
+    }
+
+    // Function to hide loading overlay after the page has loaded
+    function hideLoadingOverlay() {
+        JsLoadingOverlay.hide();
+    }
+
+    // Attach the showLoadingOverlay function to the window.onload event
+    window.onload = function() {
+        showLoadingOverlay();
+
+        // Add any additional code or function calls you want to run when the page loads here
+
+        // Then, hide the loading overlay when the page is done loading
+        hideLoadingOverlay();
+    }
+
+    </script>
+  </body>
+</html>
