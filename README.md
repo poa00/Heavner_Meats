@@ -8,7 +8,7 @@
 
 ### Easy Setup
 
-- step1_dependency_installer.bat 
+- `step1_dependency_installer.bat`
 
 Identify imports 
 
