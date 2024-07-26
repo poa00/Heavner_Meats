@@ -4,9 +4,6 @@ The script includes several classes, including GUIs and Json, which are used to 
 The script also includes several functions, including show_calendar, show_addevent, and show_details, which are used to display the appropriate GUI based on user actions.
 To use the script, run it in AutoHotkey and interact with the GUI to add and view events.
 */
-;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-;    get debug val from NEW CALENDAR EVENT api route
-;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #SingleInstance Force
 #Include customers.ahk
 #Include <cJson>
@@ -44,7 +41,11 @@ show_calendar()
     calendarChild.Show()
     addEventGUI.Hide()
 }
-
+/**
+ * Displays the add event child GUI and sets the mode to "create".
+ * 
+ * @param {currentWeek} currentWeek - The current week.
+ */
 show_addevent(currentWeek)
 {
     addEvent.mode := "create"
@@ -55,6 +56,14 @@ show_addevent(currentWeek)
         addEventGUI.Show("")
 }
 
+/**
+ * The show_details function is designed to display detailed information about a specific event and its associated customer.
+ * This function is likely triggered by some user interaction, such as selecting an event from a list.
+ * 
+ * @global {number} returnfile - A global variable used elsewhere in the script.
+ * @global {number} currentWeek - A global variable representing the current week.
+ * @param {...any} params - Additional parameters passed to the function.
+ */
 show_details(params*)
 {
     global returnfile, currentWeek
@@ -71,7 +80,7 @@ show_details(params*)
     event := requests.GetUrl("events/" eid)
     sendDatatoAddEvent(currentWeek, customer, event)
     calendarChild.Hide()
-    
+
     addEvent.customer := customer
     addEvent.event := event
     addEventGUI.Show()

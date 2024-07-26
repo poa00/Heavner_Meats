@@ -1,1 +1,0 @@
-msgbox (x := A_ScriptDir../)
