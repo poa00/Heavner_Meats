@@ -5,13 +5,13 @@ The script also includes several functions, including show_calendar, show_addeve
 To use the script, run it in AutoHotkey and interact with the GUI to add and view events.
 */
 #SingleInstance Force
-#Include customers.ahk
+#Include util\customers.ahk
+#Include util\AddorDetailsEvent.ahk
+#Include util\calendarUtil.ahk
+#Include util\searchCustomers.ahk
 #Include <cJson>
-#Include AddorDetailsEvent.ahk
-#Include calendarUtil.ahk
-#Include <request>
-#Include searchCustomers.ahk
 #Include <Dark_MsgBox_v2>
+#Include <request>
 
 port := 5613
 ip := "localhost"
