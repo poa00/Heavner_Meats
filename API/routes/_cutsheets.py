@@ -2,10 +2,8 @@ from flask import jsonify, request, Blueprint
 from peewee import DoesNotExist
 from flask import Flask, request, jsonify, Blueprint
 from peewee import *
-from customer_funcs import read_customer
 from datetime import datetime
 from util.trace_error_handling import er, verbose_print
-from util.auth import requires_auth
 from util.PEWEE_model import *
 from playhouse.shortcuts import model_to_dict
 

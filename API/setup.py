@@ -1,0 +1,1 @@
+pyinstaller --clean --add-data "routes/*.py:subfolder" your_script.py

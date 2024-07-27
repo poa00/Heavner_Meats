@@ -4,7 +4,6 @@ from flask import Flask, request, jsonify, Blueprint
 from customer_funcs import *
 from peewee import *
 from util.PEWEE_model import *
-from util.auth import requires_auth
 from datetime import datetime, timedelta
 from playhouse.shortcuts import model_to_dict
 from routes.shareable_functions import print_error
