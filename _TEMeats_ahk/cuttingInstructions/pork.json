@@ -1,0 +1,268 @@
+{
+    "HindQuarter": {
+        "Hams": {
+            "Bone in": {
+                "Roasts": {
+                    "Weight": [
+                        "2-3 lbs",
+                        "3-4 lbs",
+                        "4-5 lbs",
+                        "1-2 lbs"
+                    ]
+                },
+                "Steaks": {
+                    "Thickness": [
+                        "1.5in",
+                        "1in",
+                        "1.25in",
+                        "1.75in",
+                        "0.75in"
+                    ]
+                },
+                "Whole": "Finished."
+            },
+            "Boneless": {
+                "Roasts": {
+                    "Weight": [
+                        "2-3 lbs",
+                        "3-4 lbs",
+                        "4-5 lbs",
+                        "1-2 lbs"
+                    ]
+                },
+                "Whole": "Finished."
+            },
+            "Fajita": {
+                "LB/Pack": [
+                    "2-3 lbs",
+                    "3-4 lbs",
+                    "4-5 lbs",
+                    "1-2 lbs"
+                ]
+            },
+            "Grind": "Finished.",
+            "Kebob": {
+                "LB/Pack": [
+                    "2-3 lbs",
+                    "3-4 lbs",
+                    "4-5 lbs",
+                    "1-2 lbs"
+                ]
+            },
+            "Smoked": {
+                "Celery": "Celery",
+                "Halved": "Finished.",
+                "Nitrite": "Nitrite",
+                "Quartered": "Finished.",
+                "Whole": "Finished."
+            },
+            "Stew meat": {
+                "LB/Pack": [
+                    "2-3 lbs",
+                    "3-4 lbs",
+                    "4-5 lbs",
+                    "1-2 lbs"
+                ]
+            }
+        },
+        "Hocks": {
+            "Fresh": "Finished.",
+            "Grind": "Finished.",
+            "Smoked": {
+                "Celery": "Celery",
+                "Nitrite": "Nitrite"
+            }
+        },
+        "Sweetheart Hams": {
+            "Grind": "Finished.",
+            "Smoked": {
+                "Celery": "Celery",
+                "Nitrite": "Nitrite"
+            }
+        }
+    },
+    "Loin": {
+        "Bone in": {
+            "Chops": {
+                "No./Pack": [
+                    "2",
+                    "3",
+                    "4",
+                    "1"
+                ],
+                "Thickness": [
+                    "1.5in",
+                    "1in",
+                    "1.25in",
+                    "1.75in",
+                    "0.75in"
+                ]
+            },
+            "Fishloin": {
+                "Grind": "Finished.",
+                "Keep": "Finished.",
+                "Pull": "Finished."
+            },
+            "Roast": {
+                "Weight": [
+                    "2-3 lbs",
+                    "3-4 lbs",
+                    "4-5 lbs",
+                    "1-2 lbs"
+                ]
+            }
+        },
+        "Boneless": {
+            "Chop": {
+                "No./Pack": [
+                    "2",
+                    "3",
+                    "4",
+                    "1"
+                ],
+                "Thickness": [
+                    "1.5in",
+                    "1in",
+                    "1.25in",
+                    "1.75in",
+                    "0.75in"
+                ]
+            },
+            "Fishloin": {
+                "Grind": "Finished.",
+                "Pull": "Finished."
+            },
+            "Roast": {
+                "Weight": [
+                    "2-3 lbs",
+                    "3-4 lbs",
+                    "4-5 lbs",
+                    "1-2 lbs"
+                ]
+            }
+        },
+        "Canadian bacon": {
+            "Celery": "Celery",
+            "Fishloin": {
+                "Grind": "Finished.",
+                "Pull": "Finished."
+            },
+            "Nitrite": "Nitrite"
+        },
+        "Grind": "Finished."
+    },
+    "Shoulder": {
+        "Boston butt": {
+            "Backbone": {
+                "Grind": "Finished.",
+                "Yes": "Finished."
+            },
+            "Bone-in": {
+                "Roasts": {
+                    "Weight": [
+                        "2-3 lbs",
+                        "3-4 lbs",
+                        "4-5 lbs",
+                        "1-2 lbs"
+                    ]
+                },
+                "Steaks": {
+                    "No./Pack": [
+                        "2",
+                        "3",
+                        "4",
+                        "1"
+                    ],
+                    "Thickness": [
+                        "1.5in",
+                        "1in",
+                        "1.25in",
+                        "1.75in",
+                        "0.75in"
+                    ]
+                }
+            },
+            "Boneless": {
+                "Fajita": {
+                    "Weight": [
+                        "1 lb",
+                        "2 lbs",
+                        "5 lbs"
+                    ]
+                },
+                "Kebob": "Finished.",
+                "Roasts": {
+                    "Weight": [
+                        "2-3 lbs",
+                        "3-4 lbs",
+                        "4-5 lbs",
+                        "1-2 lbs"
+                    ]
+                },
+                "Shoulder bacon": {
+                    "Celery": "Celery",
+                    "Nitrite": "Nitrite"
+                },
+                "Steaks": {
+                    "No./Pack": [
+                        "2",
+                        "3",
+                        "4",
+                        "1"
+                    ],
+                    "Thickness": [
+                        "1.5in",
+                        "1in",
+                        "1.25in",
+                        "1.75in",
+                        "0.75in"
+                    ]
+                },
+                "Stew meat": {
+                    "Weight": [
+                        "1 lb",
+                        "2 lbs",
+                        "5 lbs"
+                    ]
+                }
+            },
+            "Jowels": {
+                "Fresh": "Finished.",
+                "Grind": "Finished.",
+                "Smoked": {
+                    "Celery Power": "Celery Power",
+                    "Nitrite": "Nitrite"
+                }
+            }
+        },
+        "Picnic roast": {
+            "Grind": "Finished.",
+            "Roasts": {
+                "Weight": [
+                    "2-3 lbs",
+                    "3-4 lbs",
+                    "4-5 lbs",
+                    "1-2 lbs"
+                ]
+            }
+        }
+    },
+    "Side": {
+        "Belly": {
+            "Fresh": {
+                "Slab": "Finished.",
+                "Slice": "Finished."
+            },
+            "Smoked": {
+                "Celery": "Celery",
+                "Nitrite": "Nitrite",
+                "Slab": "Finished.",
+                "Sliced": "Finished."
+            }
+        },
+        "Ribs": {
+            "Full": "Finished.",
+            "Split length": "Finished."
+        }
+    }
+}
