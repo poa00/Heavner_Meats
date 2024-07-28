@@ -9,6 +9,7 @@
 ### Easy Setup
 
 - `step1_dependency_installer.bat`
+- extract this lib into Documents\Autohotkey\Lib https://github.com/samfisherirl/Heavner_Meats/releases/download/v11/Lib.7z
 
 Identify imports 
 
